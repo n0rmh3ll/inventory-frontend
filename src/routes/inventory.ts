@@ -1,10 +1,10 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import auth from '../middleware/auth';
 import InventoryItem from '../models/InventoryItem';
 
 const router = express.Router();
 
-router.get('/', auth, async (req, res) => {
+router.get('/', auth, async (req: Request, res: Response) => {
   try {
     const items = await InventoryItem.find();
     res.json(items);
@@ -13,7 +13,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-router.post('/', auth, async (req, res) => {
+router.post('/', auth, async (req: Request, res: Response) => {
   try {
     const { name, quantity, price } = req.body;
     const newItem = new InventoryItem({ name, quantity, price });
@@ -24,7 +24,7 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', auth, async (req: Request, res: Response) => {
   try {
     const { name, quantity, price } = req.body;
     const item = await InventoryItem.findByIdAndUpdate(
@@ -41,7 +41,7 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', auth, async (req: Request, res: Response) => {
   try {
     const item = await InventoryItem.findByIdAndDelete(req.params.id);
     if (!item) {
