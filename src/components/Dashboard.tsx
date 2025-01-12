@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchInventory, addItem, updateItem, deleteItem } from '../store/inventorySlice';
+import { fetchInventory } from '../store/inventorySlice';
 import { RootState } from '../store';
-import { logout } from '../store/authSlice';
+
+interface InventoryItem {
+  _id: string;
+  name: string;
+  quantity: number;
+  price: number;
+}
 
 const Dashboard: React.FC = () => {
   const dispatch = useDispatch();
   const { items, loading, error } = useSelector((state: RootState) => state.inventory);
-  const [newItem, setNewItem] = useState({ name: '', quantity: 0, price: 0 });
 
   useEffect(() => {
     dispatch(fetchInventory());
   }, [dispatch]);
-
-  const handleAdd = () => {
-    dispatch(addItem(newItem));
-    setNewItem({ name: '', quantity: 0, price: 0 });
-  };
 
   return (
     <div className="dashboard">
@@ -24,13 +24,12 @@ const Dashboard: React.FC = () => {
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error}</p>}
       <ul>
-        {items.map((item) => (
+        {items.map((item: InventoryItem) => (
           <li key={item._id}>
             {item.name} - {item.quantity} - ${item.price}
           </li>
         ))}
       </ul>
-      <button onClick={() => dispatch(logout())}>Logout</button>
     </div>
   );
 };
