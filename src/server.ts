@@ -14,7 +14,7 @@ app.use(express.json());
 
 mongoose.connect(process.env.MONGODB_URI as string)
   .then(() => console.log('Connected to MongoDB'))
-  .catch((error) => console.error('Error connecting to MongoDB:', error));
+  .catch((error: Error) => console.error('Error connecting to MongoDB:', error));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/inventory', inventoryRoutes);
